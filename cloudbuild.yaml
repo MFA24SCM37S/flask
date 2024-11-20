@@ -1,18 +1,16 @@
 steps:
 # Build the container image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/$PROJECT_NAME', '.']
+  args: ['build', '-t', 'gcr.io/flask-442205/flask', '.']
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/$PROJECT_NAME']
+  args: ['push', 'gcr.io/flask-442205/flask']
 # Deploy container image to Cloud Run
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
-  args: ['run', 'deploy', '$PROJECT_NAME', '--image', 'gcr.io/$PROJECT_ID/$PROJECT_NAME', '--region', 'us-central1', '--platform', 'managed','--port','80']
+  args: ['run', 'deploy', 'flask', '--image', 'gcr.io/flask-442205/flask', '--region', 'us-central1', '--platform', 'managed','--port','80']
 images:
-- gcr.io/$PROJECT_ID/$PROJECT_NAME
+- gcr.io/flask-442205/flask
 options:
   logging: CLOUD_LOGGING_ONLY  # This is the required logging configuration
-  env:
-    - 'PROJECT_ID=$flask-442205'
-    - 'PROJECT_NAME=flask'  # Replace with your actual project name
+  
