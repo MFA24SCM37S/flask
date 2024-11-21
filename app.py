@@ -58,6 +58,7 @@ def github():
     # Add your own GitHub Token to run it local
     token = os.environ.get(
         'GITHUB_TOKEN', 'YOUR_GITHUB_TOKEN')
+
     GITHUB_URL = f"https://api.github.com/"
     headers = {
         "Authorization": f'token {token}'
@@ -75,7 +76,7 @@ def github():
 
     issues_reponse = []
     # Iterating to get issues for every month for the past 12 months
-    for i in range(12):
+    for i in range(24):
         last_month = today + dateutil.relativedelta.relativedelta(months=-1)
         types = 'type:issue'
         repo = 'repo:' + repo_name
@@ -130,7 +131,7 @@ def github():
         today = last_month
 
     df = pd.DataFrame(issues_reponse)
-
+ 
     # Daily Created Issues
     df_created_at = df.groupby(['created_at'], as_index=False).count()
     dataFrameCreated = df_created_at[['created_at', 'issue_number']]
@@ -190,6 +191,7 @@ def github():
 
     # Update your Google cloud deployed LSTM app URL (NOTE: DO NOT REMOVE "/")
     LSTM_API_URL = "https://lstm1-41278800582.us-central1.run.app/" + "api/forecast"
+    # LSTM_API_URL = "http://localhost:8080/" + "api/forecast"      
 
     '''
     Trigger the LSTM microservice to forecasted the created issues
